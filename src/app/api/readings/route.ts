@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { detailBatch, tambahBacaan } from "@/lib/store";
+import { syncBatchGraph } from "@/lib/neo4j";
 
 export const dynamic = "force-dynamic";
 
@@ -10,7 +11,8 @@ export async function POST(req: Request) {
   try {
     const payload = await req.json();
     const hasil = tambahBacaan(payload);
-    return NextResponse.json({ ok: true, ...hasil });
+    const graph = await syncBatchGraph(payload.batch_id);
+    return NextResponse.json({ ok: true, ...hasil, graph_synced: graph.synced });
   } catch (e) {
     return NextResponse.json(
       { ok: false, error: e instanceof Error ? e.message : "Payload tidak valid." },

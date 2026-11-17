@@ -92,6 +92,12 @@ dan audit.
 
 ## 4. Yang belum ada di prototipe ini
 
+Jika Neo4j dikonfigurasi, respons kiriman sensor dan serah terima memuat
+`graph_synced: true` setelah graph berhasil diperbarui. Tanpa koneksi Neo4j,
+kiriman utama tetap diterima tetapi `graph_synced: false`. Graph satu batch
+dapat dibaca melalui `GET /api/graph/{batch_id}`; respons menyebut sumber
+`neo4j` atau `local`.
+
 - Autentikasi alat dan pengguna (wajib sebelum produksi).
 - Penyimpanan database (prototipe memakai memori; data contoh dimuat
   ulang setiap server dimulai ulang).

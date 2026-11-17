@@ -16,6 +16,30 @@ npm run build   # build produksi
 npm start       # jalankan build produksi
 ```
 
+## Context graph dengan Neo4j
+
+Graph Telusur memakai `neo4j-driver` resmi. Salin `.env.example` ke
+`.env.local`, lalu isi `NEO4J_URI`, `NEO4J_USER`, `NEO4J_PASSWORD`, dan
+`NEO4J_DATABASE` sesuai instance Neo4j. Jangan commit berkas `.env.local`.
+
+```
+npm run graph:seed
+```
+
+Perintah ini membuat constraint ID unik dan menyinkronkan enam batch contoh
+sebagai node batch, pelaku, dan kejadian; relasinya adalah menangani,
+serah terima, terjadi saat, dan tercatat pada. `GET /api/graph/[id]`
+mengembalikan graph beserta sumbernya (`neo4j` atau `local`). Halaman Telusur
+membaca Neo4j jika tersedia, lalu menggunakan graph lokal saat koneksi atau
+data Neo4j belum ada. Kiriman API sensor, serah terima, dan catatan lapangan
+menyinkronkan graph setelah data diterima; respons menyertakan
+`graph_synced` agar kegagalan sinkronisasi terlihat.
+
+**Batasan:** Neo4j saat ini adalah penyimpanan graph, sementara data utama
+batch dan kiriman API masih di memori server. Untuk produksi, pindahkan data
+utama ke database persisten dan gunakan outbox/retry agar pembaruan graph
+tetap konsisten saat Neo4j tidak tersedia.
+
 ## Isi
 
 - **Dashboard web (`/dashboard`)** memiliki menu Ringkasan, Batch, Scan QR,

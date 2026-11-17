@@ -115,6 +115,7 @@ export function tambahBacaan(payload: {
 }
 
 export function tambahSerahTerima(payload: {
+  client_id?: string;
   batch_id?: string;
   dari_id?: string | null;
   ke_id?: string;
@@ -131,8 +132,12 @@ export function tambahSerahTerima(payload: {
   if (payload.dari_id && !s.pelaku.has(payload.dari_id)) {
     throw new Error(`Pelaku ${payload.dari_id} tidak dikenal.`);
   }
+  if (payload.client_id) {
+    const existing = (s.serahTerima.get(payload.batch_id) ?? []).find((item) => item.id === payload.client_id);
+    if (existing) return existing;
+  }
   const st: SerahTerima = {
-    id: `ST-${Date.now()}`,
+    id: payload.client_id ?? `ST-${Date.now()}`,
     batchId: payload.batch_id,
     dariId: payload.dari_id ?? null,
     keId: payload.ke_id,

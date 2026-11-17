@@ -44,6 +44,7 @@ export default async function DetailBatchPage({ params }: { params: Promise<{ id
       <h1 style={{ marginTop: 10 }}>
         {NAMA_KOMODITAS[b.komoditas]} {b.id} <StatusChip status={r.status} />
       </h1>
+      <div className="related-links"><Link href={`/telusur/${id}`}>Telusur perjalanan →</Link><Link href={`/paspor/${id}`}>Buka paspor QR →</Link><Link href="/serah-terima">Catat serah terima →</Link></div>
 
       {r.kalimatMasalah && (
         <div className={`alert-box alert-${r.status}`}>

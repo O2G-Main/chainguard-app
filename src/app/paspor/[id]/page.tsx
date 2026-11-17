@@ -1,0 +1,7 @@
+import Link from "next/link";
+import { notFound } from "next/navigation";
+import { detailBatch,namaPelakuPublik } from "@/lib/store";
+import { formatKg,formatWaktu } from "@/lib/format";
+import PasporActions from "@/components/PasporActions";
+export const dynamic="force-dynamic";
+export default async function PasporBatch({params}:{params:Promise<{id:string}>}){const {id}=await params;const d=detailBatch(id);if(!d)notFound();const b=d.ringkasan.batch;return <><Link className="back-link no-print" href="/paspor">← Semua paspor</Link><p className="eyebrow">Paspor digital · Data contoh</p><h1>{id} · {b.komoditas==="cabai"?"Cabai":"Bawang merah"}</h1><div className="passport"><PasporActions id={id}/><dl className="passport-data"><div><dt>Asal</dt><dd>{d.petaniNama}</dd></div><div><dt>Panen</dt><dd>{formatWaktu(b.waktuPanen)}</dd></div><div><dt>Berat panen</dt><dd>{formatKg(b.beratPanenKg)}</dd></div><div><dt>Berat terakhir</dt><dd>{formatKg(d.ringkasan.beratSaatIniKg)}</dd></div><div><dt>Pemegang saat ini</dt><dd>{d.ringkasan.pemegangNama}</dd></div><div><dt>Status</dt><dd>{d.ringkasan.status}</dd></div></dl><h2>Penanganan tercatat</h2><ol className="passport-history">{d.serahTerima.map(st=><li key={st.id}><strong>{namaPelakuPublik(st.keId)}</strong> · {formatKg(st.beratKg)}<br/><small>{formatWaktu(st.waktu)} · {st.lokasi}</small></li>)}</ol><p className="form-hint">Data contoh. Bukti ini belum diverifikasi untuk transaksi lapangan.</p></div></>}

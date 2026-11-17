@@ -111,7 +111,8 @@ export default function Beranda() {
         </>
       )}
 
-      <h2>Urutan jual duluan</h2>
+      <h2>Prioritas jual · FEFO</h2>
+      <p className="section-note">Dahulukan batch yang paling berisiko dan paling lama sejak panen.</p>
       <ol className="rank-list">
         {semua.slice(0, 5).map((r, i) => (
           <li key={r.batch.id}>
@@ -135,6 +136,8 @@ export default function Beranda() {
         <ArrowRight size={16} strokeWidth={2.2} aria-hidden="true" />
       </Link>
 
+      <h2>Ringkasan hari ini</h2>
+      <p className="section-note">{semua.length} batch aktif · {mendesak.length + pantau.length} perlu perhatian · data terakhir {sinkronTerbaru ? formatWaktu(sinkronTerbaru) : "belum tersedia"}</p>
       <h2>Semua batch</h2>
       <ul className="plain-list">
         {semua.map((r) => (

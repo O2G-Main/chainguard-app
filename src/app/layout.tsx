@@ -1,12 +1,15 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { House, ListOrdered } from "lucide-react";
+import { House, ListOrdered, ScanLine, GitBranch, FileBadge } from "lucide-react";
 import Logo from "@/components/Logo";
+import PwaRegister from "@/components/PwaRegister";
 import "./globals.css";
 
 export const metadata: Metadata = {
   title: "ChainGuard",
   description: "Pantau kondisi cabai dan bawang merah dari panen sampai pasar.",
+  manifest: "/manifest.webmanifest",
+  appleWebApp: { capable: true, statusBarStyle: "default", title: "ChainGuard" },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -28,10 +31,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 <ListOrdered size={15} strokeWidth={2.1} aria-hidden="true" />
                 Urutan Jual
               </Link>
+              <Link href="/serah-terima"><ScanLine size={15} aria-hidden="true" />Serah Terima</Link>
+              <Link href="/telusur"><GitBranch size={15} aria-hidden="true" />Telusur</Link>
+              <Link href="/paspor"><FileBadge size={15} aria-hidden="true" />Paspor</Link>
             </nav>
           </div>
         </header>
         <main className="wrap">{children}</main>
+        <PwaRegister />
         <footer className="site-footer">
           <div className="wrap">
             <p>

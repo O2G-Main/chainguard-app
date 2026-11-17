@@ -51,6 +51,7 @@ function Panel({
   const garis = nilai.map((v, i) => `${i === 0 ? "M" : "L"}${x(i).toFixed(1)},${y(v).toFixed(1)}`).join(" ");
   const area = `${garis} L${x(nilai.length - 1).toFixed(1)},${(ATAS + tinggiPlot).toFixed(1)} L${KANAN - KANAN + KIRI},${(ATAS + tinggiPlot).toFixed(1)} Z`;
   const terakhir = nilai[nilai.length - 1];
+  const puncak = nilai.indexOf(Math.max(...nilai));
   const labelNilai = (v: number) => `${v.toLocaleString("id-ID")}${satuan}`;
 
   return (
@@ -75,6 +76,7 @@ function Panel({
         <path d={area} fill={warna} opacity={0.07} />
         <path d={garis} fill="none" stroke={warna} strokeWidth={2.2} strokeLinejoin="round" strokeLinecap="round" />
         <circle cx={x(nilai.length - 1)} cy={y(terakhir)} r={4} fill={warna} stroke="#FFFFFF" strokeWidth={1.6} />
+        {puncak >= 0 && <circle cx={x(puncak)} cy={y(nilai[puncak])} r={5} fill={warna} stroke="#FFFFFF" strokeWidth={2}><title>{`Puncak ${labelNilai(nilai[puncak])} · ${labelWaktu(titikData[puncak].ts)}`}</title></circle>}
         <text x={x(nilai.length - 1) + 9} y={y(terakhir) + 4} fontSize={13} fontWeight={700} fill={warna}>
           {labelNilai(terakhir)}
         </text>

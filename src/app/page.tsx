@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ArrowRight, Clock, Droplets, Flame, Scale, Wind } from "lucide-react";
 import StatusChip from "@/components/StatusChip";
+import StatsBento from "@/components/StatsBento";
 import { semuaRingkasan } from "@/lib/store";
 import { formatKg, formatTanggal, formatWaktu } from "@/lib/format";
 import type { RingkasanBatch } from "@/lib/types";
@@ -60,7 +61,6 @@ export default function Beranda() {
   const semua = semuaRingkasan();
   const mendesak = semua.filter((r) => r.status === "mendesak");
   const pantau = semua.filter((r) => r.status === "pantau");
-  const aman = semua.filter((r) => r.status === "aman");
   const sinkronTerbaru = semua
     .map((r) => r.sinkronTerakhir)
     .filter((t): t is string => t !== null)
@@ -76,24 +76,7 @@ export default function Beranda() {
         membutuhkan perhatian.
       </p>
 
-      <div className="summary-strip">
-        <div className="summary-cell">
-          <p className="summary-value">{semua.length}</p>
-          <p className="summary-label">Batch berjalan</p>
-        </div>
-        <div className="summary-cell">
-          <p className="summary-value red">{mendesak.length}</p>
-          <p className="summary-label">Perlu ditindak sekarang</p>
-        </div>
-        <div className="summary-cell">
-          <p className="summary-value amber">{pantau.length}</p>
-          <p className="summary-label">Perlu dipantau</p>
-        </div>
-        <div className="summary-cell">
-          <p className="summary-value green">{aman.length}</p>
-          <p className="summary-label">Aman</p>
-        </div>
-      </div>
+      <StatsBento semua={semua} />
 
       <h2>Perlu ditindak sekarang</h2>
       {mendesak.length === 0 ? (
@@ -136,8 +119,6 @@ export default function Beranda() {
         <ArrowRight size={16} strokeWidth={2.2} aria-hidden="true" />
       </Link>
 
-      <h2>Ringkasan hari ini</h2>
-      <p className="section-note">{semua.length} batch aktif · {mendesak.length + pantau.length} perlu perhatian · data terakhir {sinkronTerbaru ? formatWaktu(sinkronTerbaru) : "belum tersedia"}</p>
       <h2>Semua batch</h2>
       <ul className="plain-list">
         {semua.map((r) => (

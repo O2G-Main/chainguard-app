@@ -5,11 +5,9 @@ dokumen ini arahnya. Keduanya dipakai bersamaan.
 
 ## Identitas
 
-ChainGuard adalah buku catatan pasar yang rapi. Bukan aplikasi
-teknologi yang mencolok, bukan dashboard korporat. Rasanya seperti
-catatan tangan pengepul yang ditulis ulang dengan tertib: kertas
-hangat, tinta hijau tua, garis-garis tipis seperti buku tulis, dan
-warna hanya muncul kalau dia membawa arti.
+ChainGuard adalah ruang kerja pemantauan batch dan pencatatan lapangan.
+Dashboard memakai kartu yang mudah dipindai; PWA memakai permukaan ringan
+dan navigasi kaca yang tetap jelas di bawah cahaya matahari.
 
 Penggunanya pelaku pasar yang membuka ini di HP murah, di bawah
 cahaya matahari, sambil berdiri di samping tumpukan barang. Semua
@@ -17,26 +15,27 @@ keputusan desain tunduk ke situasi itu.
 
 ## Palet
 
-- Kertas: #FAF6EE (latar halaman, hangat, tidak silau)
+- Latar: #EFF8FF (biru sangat muda)
 - Permukaan: #FFFFFF (kartu)
-- Tinta: #1C2A23 (hijau kehitaman, teks utama)
-- Tinta pudar: #66736A (teks pendamping)
-- Garis: #E5DFD2 (hairline hangat)
-- Hijau daun: #1E7A46 (aman, merek, tautan)
-- Hijau dalam: #14532D (blok merek)
-- Merah cabai: #BC3B2A (hanya untuk mendesak)
-- Kuning kunyit: #A86E0B di atas #FAF0DA (hanya untuk pantau)
+- Tinta: #3D4858 (teks utama)
+- Tinta pudar: #5C697B (teks pendamping)
+- Garis: #E1E4E9
+- Hijau aksen: #1FC65F (permukaan utama; teks di atasnya #0A3B25)
+- Hijau tautan: #0B7138 (teks pada permukaan terang)
+- Biru pendukung: #DFF0FB; mint pendukung: #D2F6E4
+- Merah mendesak: #B92D35 di atas #FFE9EA
+- Kuning pantau: #8A5A10 di atas #FFF3DF
 - Penanda komoditas: titik merah cabai untuk batch cabai, titik
   ungu bawang #7A4A63 untuk batch bawang merah. Kecil, selalu di
   tempat yang sama, tidak pernah jadi dekorasi besar.
 
-Warna status tidak pernah dipakai untuk hiasan. Kalau sebuah elemen
-berwarna merah, artinya ada yang harus ditindak.
+Warna merah tetap khusus untuk status mendesak. Warna referensi Ocean
+Breeze diperkirakan dari gambar; token CSS adalah sumber nilai yang dipakai.
 
 ## Tipografi
 
-- Judul: Fraunces, serif hangat dengan karakter, 600-700.
-- Isi: Inter, 400-700, ukuran dasar 17px, tinggi baris 1.55.
+- Judul dan isi memakai font sistem agar halaman lokal tidak bergantung
+  pada unduhan font eksternal.
 - Angka selalu tabular (font-variant-numeric: tabular-nums) supaya
   berat dan suhu sejajar rapi seperti di buku catatan.
 - Label kecil: huruf kapital 12-13px, spasi huruf longgar, tinta
@@ -44,8 +43,8 @@ berwarna merah, artinya ada yang harus ditindak.
 
 ## Bentuk dan ruang
 
-- Sudut kartu 14px, bayangan sangat tipis atau tidak ada; pemisah
-  utama adalah hairline, bukan bayangan tebal.
+- Sudut dasar 12px; kartu bento dan navigasi PWA memakai radius lebih
+  besar sesuai perannya.
 - Ritme vertikal longgar: bagian dipisah 34px, isi kartu bernapas.
 - Tanda merek: tiga titik yang dihubungkan garis, seperti rute
   batch di context graph, putih di atas blok hijau dalam.
@@ -55,8 +54,7 @@ berwarna merah, artinya ada yang harus ditindak.
 
 ## Yang dilarang
 
-- Gradien dekoratif, kaca buram (glassmorphism), kartu melayang
-  dengan bayangan besar.
+- Efek kaca atau gradien yang mengurangi keterbacaan teks.
 - Statistik karangan, lencana "AI", ikon emoji, teks promosi.
 - Warna status dipakai di luar arti statusnya.
 - Informasi teknis di beranda. Beranda hanya menjawab: batch mana

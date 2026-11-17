@@ -12,7 +12,7 @@ export default function Logo({ ukuran = 34, denganWordmark = true }: LogoProps) 
   return (
     <span className="logo">
       <svg width={ukuran} height={ukuran} viewBox="0 0 34 34" aria-hidden="true">
-        <rect width="34" height="34" rx="9" fill="#14532D" />
+        <rect width="34" height="34" rx="9" fill="var(--green-deep)" />
         <path
           d="M10 23 L17 10 L24 20"
           stroke="#FFFFFF"
@@ -22,7 +22,7 @@ export default function Logo({ ukuran = 34, denganWordmark = true }: LogoProps) 
         />
         <circle cx="10" cy="23" r="3" fill="#FFFFFF" />
         <circle cx="17" cy="10" r="3" fill="#FFFFFF" />
-        <circle cx="24" cy="20" r="3" fill="#F2B035" />
+        <circle cx="24" cy="20" r="3" fill="var(--brand-primary)" />
       </svg>
       {denganWordmark && <span className="logo-text">ChainGuard</span>}
     </span>

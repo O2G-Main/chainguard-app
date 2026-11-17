@@ -63,14 +63,14 @@ function Panel({
           y={y(bandMaks)}
           width={lebarPlot}
           height={Math.max(y(bandMin) - y(bandMaks), 2)}
-          fill="#E9F4EC"
+          fill="var(--green-bg)"
         />
-        <line x1={KIRI} x2={KIRI + lebarPlot} y1={y(bandMaks)} y2={y(bandMaks)} stroke="#9DB8A4" strokeWidth={1} strokeDasharray="5 4" />
-        <line x1={KIRI} x2={KIRI + lebarPlot} y1={y(bandMin)} y2={y(bandMin)} stroke="#9DB8A4" strokeWidth={1} strokeDasharray="5 4" />
-        <text x={KIRI - 6} y={y(bandMaks) + 4} fontSize={12} fill="#66736A" textAnchor="end">
+        <line x1={KIRI} x2={KIRI + lebarPlot} y1={y(bandMaks)} y2={y(bandMaks)} stroke="var(--line)" strokeWidth={1} strokeDasharray="5 4" />
+        <line x1={KIRI} x2={KIRI + lebarPlot} y1={y(bandMin)} y2={y(bandMin)} stroke="var(--line)" strokeWidth={1} strokeDasharray="5 4" />
+        <text x={KIRI - 6} y={y(bandMaks) + 4} fontSize={12} fill="var(--muted)" textAnchor="end">
           {labelNilai(bandMaks)}
         </text>
-        <text x={KIRI - 6} y={y(bandMin) + 4} fontSize={12} fill="#66736A" textAnchor="end">
+        <text x={KIRI - 6} y={y(bandMin) + 4} fontSize={12} fill="var(--muted)" textAnchor="end">
           {labelNilai(bandMin)}
         </text>
         <path d={area} fill={warna} opacity={0.07} />
@@ -80,10 +80,10 @@ function Panel({
         <text x={x(nilai.length - 1) + 9} y={y(terakhir) + 4} fontSize={13} fontWeight={700} fill={warna}>
           {labelNilai(terakhir)}
         </text>
-        <text x={KIRI} y={H - 8} fontSize={12} fill="#66736A">
+        <text x={KIRI} y={H - 8} fontSize={12} fill="var(--muted)">
           {titikData.length > 0 ? labelWaktu(titikData[0].ts) : ""}
         </text>
-        <text x={KIRI + lebarPlot} y={H - 8} fontSize={12} fill="#66736A" textAnchor="end">
+        <text x={KIRI + lebarPlot} y={H - 8} fontSize={12} fill="var(--muted)" textAnchor="end">
           {titikData.length > 0 ? labelWaktu(titikData[titikData.length - 1].ts) : ""}
         </text>
       </svg>
@@ -103,7 +103,7 @@ export default function GrafikGaris({ bacaan, komoditas }: { bacaan: Bacaan[]; k
         titikData={contoh.map((b) => ({ ts: b.ts, v: b.suhu }))}
         bandMin={j.suhuMin}
         bandMaks={j.suhuMaks}
-        warna="#B3540A"
+        warna="var(--chart-temperature)"
       />
       <Panel
         judul="Kelembapan udara (%)"
@@ -111,7 +111,7 @@ export default function GrafikGaris({ bacaan, komoditas }: { bacaan: Bacaan[]; k
         titikData={contoh.map((b) => ({ ts: b.ts, v: b.rh }))}
         bandMin={j.rhMin}
         bandMaks={j.rhMaks}
-        warna="#1C5F8A"
+        warna="var(--chart-humidity)"
       />
       <p className="chart-note">
         Pita terang bergaris putus-putus adalah batas aman untuk komoditas ini (parameter contoh).

@@ -1,0 +1,6 @@
+import Link from "next/link";
+import { ScanLine, ArrowRight, Wifi } from "lucide-react";
+import { semuaRingkasan } from "@/lib/store";
+import StatusChip from "@/components/StatusChip";
+export const dynamic="force-dynamic";
+export default function FieldHome(){const all=semuaRingkasan();const need=all.filter(r=>r.status!=="aman");return <><p className="field-overline">Ruang lapangan</p><h1>Selamat bekerja.</h1><p className="field-intro">Pantau batch yang perlu perhatian, lalu catat penanganan langsung dari wadah.</p><Link href="/app/scan" className="field-scan-hero"><ScanLine size={28}/><span><strong>Scan QR batch</strong><small>Buka batch dan mulai pencatatan</small></span><ArrowRight size={20}/></Link><div className="field-summary"><div><strong>{all.length}</strong><span>Batch aktif</span></div><div><strong>{need.length}</strong><span>Perlu perhatian</span></div></div><div className="field-section-head"><h2>Perlu perhatian</h2><Link href="/app/batch">Lihat semua →</Link></div><div className="field-card-list">{need.slice(0,3).map(r=><Link href={`/app/batch/${r.batch.id}`} className="field-card" key={r.batch.id}><span><strong>{r.batch.id}</strong><small>{r.pemegangNama} · {r.lokasiSaatIni}</small></span><StatusChip status={r.status}/></Link>)}</div><p className="field-connect"><Wifi size={16}/> Catatan akan diantrekan saat koneksi terputus.</p></>}

@@ -1,0 +1,3 @@
+import Link from "next/link";import {semuaRingkasan} from "@/lib/store";import StatusChip from "@/components/StatusChip";
+export const dynamic="force-dynamic";
+export default function FieldBatches(){return <><p className="field-overline">Daftar kerja</p><h1>Batch Saya</h1><p className="field-intro">Semua batch contoh. Akun pelaku belum terhubung, jadi daftar belum difilter per pengguna.</p><div className="field-card-list">{semuaRingkasan().map(r=><Link href={`/app/batch/${r.batch.id}`} className="field-card" key={r.batch.id}><span><strong>{r.batch.id} · {r.batch.komoditas==="cabai"?"Cabai":"Bawang merah"}</strong><small>{r.pemegangNama} · {r.beratSaatIniKg.toLocaleString("id-ID")} kg</small></span><StatusChip status={r.status}/></Link>)}</div></>}

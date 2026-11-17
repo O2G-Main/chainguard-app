@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
-import Link from "next/link";
-import { House, ListOrdered, ScanLine, GitBranch, FileBadge } from "lucide-react";
-import Logo from "@/components/Logo";
 import PwaRegister from "@/components/PwaRegister";
+import SiteChrome from "@/components/SiteChrome";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -16,27 +14,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="id">
       <body>
-        <header className="site-header">
-          <div className="wrap header-in">
-            <Link href="/" className="brand">
-              <Logo />
-            </Link>
-            <span className="badge-demo">Data contoh</span>
-            <nav className="nav" aria-label="Navigasi utama">
-              <Link href="/">
-                <House size={15} strokeWidth={2.1} aria-hidden="true" />
-                Beranda
-              </Link>
-              <Link href="/prioritas">
-                <ListOrdered size={15} strokeWidth={2.1} aria-hidden="true" />
-                <span className="nav-long">Urutan Jual</span><span className="nav-short">Jual</span>
-              </Link>
-              <Link href="/serah-terima"><ScanLine size={15} aria-hidden="true" /><span className="nav-long">Serah Terima</span><span className="nav-short">Serah</span></Link>
-              <Link href="/telusur"><GitBranch size={15} aria-hidden="true" />Telusur</Link>
-              <Link href="/paspor"><FileBadge size={15} aria-hidden="true" />Paspor</Link>
-            </nav>
-          </div>
-        </header>
+        <SiteChrome />
         <main className="wrap">{children}</main>
         <PwaRegister />
         <footer className="site-footer">

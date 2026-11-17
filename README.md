@@ -18,6 +18,19 @@ npm start       # jalankan build produksi
 
 ## Isi
 
+- **Dashboard web (`/dashboard`)** memiliki menu Ringkasan, Batch, Scan QR,
+  Prioritas Jual, Telusur, Serah Terima, Paspor, Perangkat, dan Pengaturan.
+  Scan QR di area ini membuka detail batch untuk pemantauan.
+- **PWA lapangan (`/app`)** memiliki Beranda, Batch Saya, Scan QR, Aktivitas,
+  dan Akun. Setelah scan, pengguna dapat mencatat kondisi, timbang ulang,
+  serah terima, atau membuka paspor. PWA memakai navbar kaca ringan dan
+  manifest dengan halaman awal `/app`.
+- Catatan lapangan yang gagal dikirim disimpan di perangkat dan dicoba lagi
+  saat koneksi kembali. Halaman Aktivitas juga menampilkan antrean lokal.
+- **Penting:** akun pengguna, database, dan otorisasi belum tersedia. Data
+  contoh serta catatan yang sudah terkirim masih berada di memori server.
+  Daftar "Batch Saya" belum dapat difilter menurut pengguna.
+
 - **Beranda (`/`)** menjawab satu pertanyaan: batch mana yang harus
   ditindak sekarang. Urutannya: yang mendesak, yang perlu dipantau,
   urutan jual duluan, lalu semua batch. Detail teknis tidak ditampilkan

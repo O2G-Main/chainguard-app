@@ -13,6 +13,7 @@ import {
 import GrafikGaris from "@/components/GrafikGaris";
 import StatusChip from "@/components/StatusChip";
 import { detailBatch, namaPelakuPublik } from "@/lib/store";
+import { semuaCatatan } from "@/lib/field-notes";
 import { formatDurasi, formatKg, formatPersen, formatWaktu } from "@/lib/format";
 
 export const dynamic = "force-dynamic";
@@ -163,6 +164,8 @@ export default async function DetailBatchPage({ params }: { params: Promise<{ id
           </li>
         ))}
       </ul>
+      <h2>Catatan lapangan</h2>
+      {semuaCatatan(id).length === 0 ? <p className="empty-note">Belum ada catatan kondisi atau timbang ulang.</p> : <ul className="timeline">{semuaCatatan(id).map((note) => <li key={note.id}><p className="leg-title">{note.jenis === "timbang" ? `Timbang ulang: ${formatKg(note.beratKg ?? 0)}` : "Kondisi barang"}</p><p className="leg-meta">{formatWaktu(note.waktu)} · {note.lokasi}</p>{note.kondisi && <p>{note.kondisi}</p>}</li>)}</ul>}
     </>
   );
 }

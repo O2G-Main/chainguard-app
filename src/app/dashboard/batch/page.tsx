@@ -1,0 +1,3 @@
+import Link from "next/link";import {semuaRingkasan} from "@/lib/store";import StatusChip from "@/components/StatusChip";
+export const dynamic="force-dynamic";
+export default function BatchList(){return <><p className="eyebrow">Pemantauan</p><h1>Semua batch</h1><p className="lede">Cari batch berdasarkan ID melalui daftar ini. Data masih contoh.</p><div className="batch-grid">{semuaRingkasan().map(r=><Link href={`/batch/${r.batch.id}`} className="batch-tile" key={r.batch.id}><strong>{r.batch.id}</strong><span>{r.batch.komoditas==="cabai"?"Cabai":"Bawang merah"} · {r.pemegangNama}</span><StatusChip status={r.status}/><span className="tile-action">Lihat detail →</span></Link>)}</div></>}

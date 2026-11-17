@@ -1,5 +1,6 @@
 import { BACAAN_AWAL, BATCHES, PELAKU, SERAH_TERIMA } from "./seed";
 import { hitungLegs, ringkasBatch } from "./logic";
+import { semuaCatatan } from "./field-notes";
 import type { Bacaan, Batch, Pelaku, RingkasanBatch, RingkasanLeg, SerahTerima } from "./types";
 
 // Store in-memory untuk prototipe. Data contoh dimuat dari seed.ts.
@@ -42,10 +43,16 @@ function store(): Store {
   return globalStore.__cgStore;
 }
 
+function beratTimbangTerbaru(batchId: string): number | undefined {
+  const latestHandover = [...(store().serahTerima.get(batchId) ?? [])].sort((a,b) => b.waktu.localeCompare(a.waktu))[0];
+  const latestWeighing = semuaCatatan(batchId).find((n) => n.jenis === "timbang" && (!latestHandover || n.waktu > latestHandover.waktu));
+  return latestWeighing?.beratKg ?? undefined;
+}
+
 export function semuaRingkasan(): RingkasanBatch[] {
   const s = store();
   return [...s.batches.values()]
-    .map((b) => ringkasBatch(b, s.pelaku, s.serahTerima.get(b.id) ?? [], s.bacaan.get(b.id) ?? []))
+    .map((b) => ringkasBatch(b, s.pelaku, s.serahTerima.get(b.id) ?? [], s.bacaan.get(b.id) ?? [], beratTimbangTerbaru(b.id)))
     .sort((a, b) => b.skorPrioritas - a.skorPrioritas);
 }
 
@@ -64,7 +71,7 @@ export function detailBatch(id: string): DetailBatch | null {
   const bacaan = [...(s.bacaan.get(id) ?? [])].sort((a, b) => a.ts.localeCompare(b.ts));
   const serahTerima = [...(s.serahTerima.get(id) ?? [])].sort((a, b) => a.waktu.localeCompare(b.waktu));
   return {
-    ringkasan: ringkasBatch(batch, s.pelaku, serahTerima, bacaan),
+    ringkasan: ringkasBatch(batch, s.pelaku, serahTerima, bacaan, beratTimbangTerbaru(id)),
     bacaan,
     serahTerima,
     legs: hitungLegs(batch, s.pelaku, serahTerima, bacaan),

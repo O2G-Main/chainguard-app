@@ -1,0 +1,3 @@
+import {detailBatch,semuaRingkasan} from "@/lib/store";import FieldActivity from "@/components/FieldActivity";import {semuaCatatan} from "@/lib/field-notes";
+export const dynamic="force-dynamic";
+export default function Aktivitas(){const sent=semuaRingkasan().flatMap(r=>(detailBatch(r.batch.id)?.serahTerima||[]).map(s=>({batch_id:s.batchId,ke_id:s.keId,waktu:s.waktu,berat_kg:s.beratKg,lokasi:s.lokasi}))).sort((a,b)=>b.waktu.localeCompare(a.waktu));return <><p className="field-overline">Catatan lapangan</p><h1>Aktivitas</h1><p className="field-intro">Status kiriman pada perangkat ini dan riwayat serah terima contoh.</p><FieldActivity sent={sent} notes={semuaCatatan()}/></>}

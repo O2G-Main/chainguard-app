@@ -104,6 +104,7 @@ export function ringkasBatch(
   pelaku: Map<string, Pelaku>,
   serahTerima: SerahTerima[],
   bacaan: Bacaan[],
+  beratTimbangKg?: number,
 ): RingkasanBatch {
   const urutST = [...serahTerima].sort((a, b) => a.waktu.localeCompare(b.waktu));
   const urutBacaan = [...bacaan].sort((a, b) => a.ts.localeCompare(b.ts));
@@ -117,7 +118,7 @@ export function ringkasBatch(
   const stTerakhir = urutST[urutST.length - 1];
   const pemegangId = stTerakhir ? stTerakhir.keId : batch.petaniId;
   const pemegang = pelaku.get(pemegangId);
-  const beratSaatIni = stTerakhir ? stTerakhir.beratKg : batch.beratPanenKg;
+  const beratSaatIni = beratTimbangKg ?? (stTerakhir ? stTerakhir.beratKg : batch.beratPanenKg);
   const susutPersen = ((batch.beratPanenKg - beratSaatIni) / batch.beratPanenKg) * 100;
 
   const acuan =

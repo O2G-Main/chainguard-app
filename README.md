@@ -43,7 +43,7 @@ tetap konsisten saat Neo4j tidak tersedia.
 ## Isi
 
 - **Dashboard web (`/dashboard`)** memiliki menu Ringkasan, Batch, Scan QR,
-  Prioritas Jual, Telusur, Serah Terima, Paspor, Perangkat, dan Pengaturan.
+  Prioritas Jual, Telusur, Serah Terima, dan Paspor.
   Scan QR di area ini membuka detail batch untuk pemantauan.
 - **PWA lapangan (`/app`)** memiliki Beranda, Batch Saya, Scan QR, Aktivitas,
   dan Akun. Setelah scan, pengguna dapat mencatat kondisi, timbang ulang,

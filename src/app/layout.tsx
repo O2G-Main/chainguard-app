@@ -32,7 +32,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               <Logo />
             </Link>
             <span className="badge-demo">Data contoh</span>
-            <nav className="nav">
+            <nav className="nav" aria-label="Navigasi utama">
               <Link href="/">
                 <House size={15} strokeWidth={2.1} aria-hidden="true" />
                 Beranda

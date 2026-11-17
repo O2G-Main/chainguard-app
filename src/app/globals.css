@@ -588,3 +588,61 @@ h2 {
     font-size: 26px;
   }
 }
+
+/* Tampilan eksperimen: permukaan yang ringan, hierarki jelas, dan navigasi ibu jari. */
+:root {
+  --paper: #f4f7f2;
+  --ink: #173326;
+  --muted: #586a60;
+  --line: #d9e5da;
+  --green: #087842;
+  --green-deep: #075b35;
+  --green-bg: #e2f3e8;
+  --radius: 18px;
+}
+
+body { line-height: 1.5; }
+.wrap { max-width: 1120px; }
+.site-header { background: #fff; box-shadow: 0 2px 16px rgba(13, 66, 38, .05); }
+.header-in { min-height: 72px; }
+.brand { font-family: var(--font-body), sans-serif; font-weight: 800; letter-spacing: -.035em; }
+main.wrap { padding-top: 38px; padding-bottom: 72px; }
+h1, h2 { font-family: var(--font-body), sans-serif; letter-spacing: -.035em; }
+h1 { font-size: clamp(28px, 3.5vw, 42px); line-height: 1.12; }
+h2 { font-size: 21px; margin-top: 38px; }
+.lede { max-width: 65ch; }
+.summary-strip { box-shadow: 0 10px 34px rgba(13, 66, 38, .05); }
+.summary-cell { padding: 20px 22px; }
+.summary-value { font-family: var(--font-body), sans-serif; font-size: 32px; }
+.card, .rank-row, .plain-row, .info-grid, .chart-box { box-shadow: 0 7px 24px rgba(13, 66, 38, .045); }
+.card { padding: 22px 24px; }
+.card-urgent { border-left-width: 5px; }
+.card-watch { border-left-width: 5px; }
+.card-title { justify-content: space-between; }
+.problem { font-size: 18px; }
+.action-box { line-height: 1.5; }
+.detail-link { min-height: 40px; align-items: center; }
+.rank-row, .plain-row { min-height: 74px; }
+.rank-num { font-family: var(--font-body), sans-serif; }
+.nav a { min-height: 40px; }
+.nav a:hover, .rank-row:hover, .plain-row:hover { background: var(--green-bg); }
+
+@media (max-width: 640px) {
+  .wrap { padding-left: 16px; padding-right: 16px; }
+  .header-in { min-height: 64px; flex-wrap: nowrap; }
+  .brand { font-size: 20px; }
+  .badge-demo { margin-left: auto; }
+  .nav { position: fixed; bottom: 0; left: 0; right: 0; z-index: 20; margin: 0; border-radius: 18px 18px 0 0; border-bottom: 0; justify-content: space-around; padding: 7px 12px max(7px, env(safe-area-inset-bottom)); box-shadow: 0 -5px 24px rgba(13, 66, 38, .12); }
+  .nav a { flex: 1; flex-direction: column; justify-content: center; gap: 2px; padding: 5px; font-size: 12px; }
+  .nav a svg { width: 20px; height: 20px; }
+  main.wrap { padding-top: 24px; padding-bottom: 100px; }
+  .site-footer { padding-bottom: 88px; }
+  .summary-cell { padding: 14px 16px; }
+  .summary-value { font-size: 27px; }
+  .summary-label { font-size: 12px; }
+  .card { padding: 17px 16px; }
+  .card-title { font-size: 16px; gap: 6px; }
+  .problem { font-size: 16px; }
+  .card-meta { font-size: 14px; }
+  .rank-row, .plain-row { padding: 13px 14px; }
+}

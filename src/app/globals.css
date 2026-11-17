@@ -846,6 +846,40 @@ body:has(.field-app){background:var(--paper)}
 @media(max-width:760px){.shipment-summary,.warehouse-stats{grid-template-columns:repeat(2,minmax(0,1fr))}.batch-unit-grid{grid-template-columns:1fr}}
 @media(max-width:480px){.shipment-card,.warehouse-card,.batch-unit-card{padding:16px}.shipment-units li{flex-wrap:wrap}.unit-reading{margin-left:auto}.warehouse-cards{grid-template-columns:1fr}}
 .field-unit-list{display:grid;gap:8px;margin:10px 0 20px}.field-unit-list>div{display:flex;justify-content:space-between;gap:12px;padding:12px 14px;border:1px solid var(--line);border-radius:12px;background:rgba(255,255,255,.75);font-size:13px}.field-unit-list span{color:var(--muted);text-align:right}
+/* Kartu unit mandiri, dikelompokkan di bawah satu pengiriman. */
+.shipment-grid{grid-template-columns:1fr;gap:20px}
+.shipment-card{padding:24px}
+.shipment-card-head{align-items:center}
+.shipment-route{margin-bottom:14px}
+.shipment-facts{align-items:center}
+.shipment-facts span:last-child{color:var(--muted)}
+.shipment-unit-section-head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin:19px 0 11px}
+.shipment-unit-section-head h3{margin:0}
+.shipment-unit-section-head span{font-size:12px;font-weight:700;color:var(--muted)}
+.shipment-unit-grid,.batch-unit-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:0}
+.shipment-unit-card{min-width:0;padding:17px;border:1px solid var(--line);border-radius:17px;background:var(--paper)}
+.shipment-unit-alert{border-color:var(--red-line);background:var(--red-bg)}
+.shipment-unit-head{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:12px}
+.shipment-unit-symbol{display:grid;place-items:center;width:39px;height:39px;border-radius:12px;background:var(--green-bg);color:var(--green-deep)}
+.shipment-unit-symbol.unit-karung{background:var(--secondary-bg);color:var(--chart-humidity)}
+.shipment-unit-state{display:inline-flex;align-items:center;gap:4px;padding:5px 7px;border-radius:99px;background:var(--surface);color:var(--muted);font-size:10px;font-weight:800;white-space:nowrap}
+.shipment-unit-state.is-alert{color:var(--red)}
+.shipment-unit-card h3{margin:4px 0 14px;color:var(--ink);font-size:18px;line-height:1.2;letter-spacing:-.025em;text-transform:none}
+.shipment-unit-facts{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:12px 0;margin:0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.shipment-unit-facts div{min-width:0}
+.shipment-unit-facts dt{display:flex;align-items:center;gap:4px;margin-bottom:3px;color:var(--muted);font-size:11px}
+.shipment-unit-facts dd{margin:0;font-size:14px;font-weight:800}
+.shipment-unit-reading{display:flex;align-items:center;gap:13px;min-height:37px;font-size:14px;font-weight:800}
+.shipment-unit-reading span{display:inline-flex;align-items:center;gap:4px}
+.shipment-unit-reading svg{color:var(--green)}
+.shipment-unit-time{margin:0;color:var(--muted);font-size:11px}
+.batch-units-heading{margin:28px 0 13px}.batch-units-heading h2{margin:0}.batch-units-heading p{margin:5px 0 0;color:var(--muted);font-size:13px}
+@media(max-width:1200px){.shipment-unit-grid,.batch-unit-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:760px){.shipment-unit-grid,.batch-unit-grid{grid-template-columns:1fr}.shipment-card{padding:17px}.shipment-unit-card{padding:15px}}
+@media(max-width:440px){.shipment-card-head{align-items:flex-start}.shipment-card-head .chip{max-width:135px;text-align:center}.shipment-facts{gap:12px}.shipment-facts strong{font-size:15px}}
+.shipment-card-head>div{min-width:0}
+@media(max-width:640px){.shipment-card-head{flex-direction:column;align-items:flex-start;gap:9px}.shipment-card-head .chip{max-width:none;white-space:nowrap}}
+.info-grid{grid-template-columns:repeat(auto-fit,minmax(min(100%,230px),1fr))}
 .node-circle{stroke:var(--green)}.node-batch{fill:var(--green-deep);stroke:var(--green-deep)}.node-kejadian{fill:var(--red-bg);stroke:var(--red)}
 .edge{stroke:#a8caba}.edge.active{stroke:var(--green)}
 :root{--muted:#5c697b}

@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import GrafikGaris from "@/components/GrafikGaris";
 import StatusChip from "@/components/StatusChip";
+import ShipmentUnitCard from "@/components/ShipmentUnitCard";
 import { detailBatch, namaPelakuPublik } from "@/lib/store";
 import { semuaCatatan } from "@/lib/field-notes";
 import { formatDurasi, formatKg, formatPersen, formatWaktu } from "@/lib/format";
@@ -35,6 +36,8 @@ export default async function DetailBatchPage({ params }: { params: Promise<{ id
   if (!detail) notFound();
   const r = detail.ringkasan;
   const b = r.batch;
+  const wadahCount = b.units.filter(unit => unit.jenis === "wadah").length;
+  const karungCount = b.units.length - wadahCount;
 
   return (
     <>
@@ -111,7 +114,7 @@ export default async function DetailBatchPage({ params }: { params: Promise<{ id
             <Package size={13} strokeWidth={2.2} aria-hidden="true" />
             Wadah dan karung
           </dt>
-          <dd>{b.units.length} unit dalam pengiriman</dd>
+          <dd>{wadahCount > 0 && `${wadahCount} wadah`}{wadahCount > 0 && karungCount > 0 && " · "}{karungCount > 0 && `${karungCount} karung`}</dd>
         </div>
         <div>
           <dt>
@@ -122,15 +125,10 @@ export default async function DetailBatchPage({ params }: { params: Promise<{ id
         </div>
       </dl>
 
-      <h2>Unit dalam pengiriman</h2>
+      <div className="batch-units-heading"><div><h2>Unit dalam pengiriman</h2><p>{b.units.length} unit fisik · {wadahCount} wadah · {karungCount} karung · {b.units.length} logger</p></div></div>
       <div className="batch-unit-grid">{b.units.map(unit => {
         const latest = detail.bacaan.filter(reading => reading.deviceId === unit.deviceId).at(-1);
-        return <article className="batch-unit-card" key={unit.id}>
-          <span className="shipment-overline">{unit.jenis === "karung" ? "Karung" : "Wadah"} · {unit.id}</span>
-          <strong>{unit.tipe}</strong>
-          <span>{formatKg(unit.beratAwalKg)} awal · Logger {unit.deviceId}</span>
-          <small>{latest ? `Terakhir ${latest.suhu.toLocaleString("id-ID")}°C · ${latest.rh}% RH · ${formatWaktu(latest.ts)}` : "Logger terpasang, belum ada bacaan"}</small>
-        </article>;
+        return <ShipmentUnitCard key={unit.id} unit={unit} komoditas={b.komoditas} latest={latest} />;
       })}</div>
 
       <h2>Suhu dan kelembapan selama perjalanan</h2>

@@ -41,7 +41,7 @@ function KartuTindakan({ r, kelas }: { r: RingkasanBatch; kelas: "urgent" | "wat
       </div>
       <p className="card-meta">
         Sekarang di tangan {r.pemegangNama} ({r.pemegangPeran}), {r.lokasiSaatIni}. Berat{" "}
-        {formatKg(r.beratSaatIniKg)}.
+        {formatKg(r.beratSaatIniKg)} dalam {r.batch.units.length} {r.batch.units[0]?.jenis === "karung" ? "karung" : "wadah"}.
       </p>
       {r.tindakan && (
         <div className={`action-box action-${kelas}`}>

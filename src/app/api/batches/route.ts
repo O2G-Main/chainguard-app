@@ -9,6 +9,8 @@ export async function GET() {
   const data = semuaRingkasan().map((r) => ({
     batch_id: r.batch.id,
     unit_count: r.batch.units.length,
+    wadah_count: r.batch.units.filter((unit) => unit.jenis === "wadah").length,
+    karung_count: r.batch.units.filter((unit) => unit.jenis === "karung").length,
     units: r.batch.units.map((unit) => ({
       unit_id: unit.id,
       jenis: unit.jenis,

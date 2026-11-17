@@ -16,14 +16,14 @@ export default function StatsBento({semua}:{semua:RingkasanBatch[]}) {
       <span className="bento-topline">Prioritas hari ini <ArrowUpRight size={20} aria-hidden="true"/></span>
       <span className="bento-primary-number">{mendesak.length}<small>batch</small></span>
       <span className="bento-primary-title">Perlu ditindak sekarang</span>
-      <span className="bento-primary-caption">{mendesak[0]?`${mendesak[0].batch.id} paling mendesak · ${mendesak[0].kalimatMasalah||"Lihat tindakan"}`:"Tidak ada batch mendesak saat ini."}</span>
-      <span className="bento-primary-footer">Dari {semua.length} batch aktif <span>Lihat rincian →</span></span>
+      <span className="bento-primary-caption">{mendesak[0]?`${mendesak[0].batch.id} · ${mendesak[0].batch.units.length} ${mendesak[0].batch.units[0]?.jenis === "karung" ? "karung" : "wadah"} · ${mendesak[0].kalimatMasalah||"Lihat tindakan"}`:"Tidak ada batch mendesak saat ini."}</span>
+      <span className="bento-primary-footer">Dari {semua.length} pengiriman · {semua.reduce((n,r)=>n+r.batch.units.length,0)} unit <span>Lihat rincian →</span></span>
     </Link>
     <Link className="bento-card bento-exposure" href={terpapar?`/batch/${terpapar.batch.id}`:"/dashboard/batch"}>
       <span className="bento-copy"><span className="bento-label"><Clock3 size={15} aria-hidden="true"/>Paparan terlama</span><strong>{formatDurasi(paparanMaks)}</strong><small>{terpapar&&paparanMaks>0?`Pada ${terpapar.batch.id}, dari data sensor yang tercatat`:"Belum ada paparan di luar batas aman"}</small></span>
       <span className="bento-bars" aria-hidden="true">{semua.map(r=><i key={r.batch.id} style={{height:`${paparanMaks?Math.max(13,Math.round(r.totalMenitPaparan/paparanMaks*100)):13}%`}}/>)}</span>
     </Link>
-    <Link className="bento-card bento-safe" href="/dashboard/batch"><PackageCheck size={22} aria-hidden="true"/><strong>{aman.length}</strong><span>Aman</span></Link>
+    <Link className="bento-card bento-safe" href="/dashboard/batch"><PackageCheck size={22} aria-hidden="true"/><strong>{aman.length}</strong><span>Pengiriman aman</span></Link>
     <Link className="bento-card bento-watch" href="/dashboard/prioritas"><span className="bento-watch-icon"><Eye size={22} aria-hidden="true"/></span><span><strong>{pantau.length} perlu dipantau</strong><small>Urutkan untuk dijual lebih dulu</small></span><ArrowUpRight size={17} aria-hidden="true"/></Link>
     <p className="bento-freshness">Data sensor terakhir {dataTerakhir?formatWaktu(dataTerakhir):"belum tersedia"}</p>
   </section>

@@ -29,9 +29,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               </Link>
               <Link href="/prioritas">
                 <ListOrdered size={15} strokeWidth={2.1} aria-hidden="true" />
-                Urutan Jual
+                <span className="nav-long">Urutan Jual</span><span className="nav-short">Jual</span>
               </Link>
-              <Link href="/serah-terima"><ScanLine size={15} aria-hidden="true" />Serah Terima</Link>
+              <Link href="/serah-terima"><ScanLine size={15} aria-hidden="true" /><span className="nav-long">Serah Terima</span><span className="nav-short">Serah</span></Link>
               <Link href="/telusur"><GitBranch size={15} aria-hidden="true" />Telusur</Link>
               <Link href="/paspor"><FileBadge size={15} aria-hidden="true" />Paspor</Link>
             </nav>

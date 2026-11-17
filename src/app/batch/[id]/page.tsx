@@ -109,18 +109,29 @@ export default async function DetailBatchPage({ params }: { params: Promise<{ id
         <div>
           <dt>
             <Package size={13} strokeWidth={2.2} aria-hidden="true" />
-            Wadah
+            Wadah dan karung
           </dt>
-          <dd>{b.wadah}</dd>
+          <dd>{b.units.length} unit dalam pengiriman</dd>
         </div>
         <div>
           <dt>
             <Cpu size={13} strokeWidth={2.2} aria-hidden="true" />
             Alat pencatat
           </dt>
-          <dd>{b.loggerId}</dd>
+          <dd>{b.units.length} logger, satu per unit</dd>
         </div>
       </dl>
+
+      <h2>Unit dalam pengiriman</h2>
+      <div className="batch-unit-grid">{b.units.map(unit => {
+        const latest = detail.bacaan.filter(reading => reading.deviceId === unit.deviceId).at(-1);
+        return <article className="batch-unit-card" key={unit.id}>
+          <span className="shipment-overline">{unit.jenis === "karung" ? "Karung" : "Wadah"} · {unit.id}</span>
+          <strong>{unit.tipe}</strong>
+          <span>{formatKg(unit.beratAwalKg)} awal · Logger {unit.deviceId}</span>
+          <small>{latest ? `Terakhir ${latest.suhu.toLocaleString("id-ID")}°C · ${latest.rh}% RH · ${formatWaktu(latest.ts)}` : "Logger terpasang, belum ada bacaan"}</small>
+        </article>;
+      })}</div>
 
       <h2>Suhu dan kelembapan selama perjalanan</h2>
       <GrafikGaris bacaan={detail.bacaan} komoditas={b.komoditas} />

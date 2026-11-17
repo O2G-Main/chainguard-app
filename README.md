@@ -65,7 +65,12 @@ tetap konsisten saat Neo4j tidak tersedia.
 - **Rincian batch (`/batch/[id]`)** paspor penanganan satu batch: grafik
   suhu dan kelembapan terhadap batas aman, ringkasan kondisi tiap
   perjalanan antar pelaku, dan riwayat serah terima dengan beratnya.
-- **API integrasi** (`/api/readings`, `/api/handover`, `/api/batches`)
+  Satu batch adalah satu pengiriman; daftar unit di dalamnya mencatat
+  tiap wadah atau karung beserta logger yang terpasang.
+- **Stok Gudang (`/dashboard/stok`)** menampilkan hasil panen yang
+  pemegang terakhirnya distributor dan saldo contoh kemasan kosong serta
+  logger cadangan. Ini belum menjadi buku mutasi stok.
+- **API integrasi** (`/api/readings`, `/api/handover`, `/api/batches`, `/api/stock`)
   menerima kiriman logger dan aplikasi pelaku. Format lengkapnya di
   `INTEGRASI_IOT.md`.
 

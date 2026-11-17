@@ -8,6 +8,14 @@ export const dynamic = "force-dynamic";
 export async function GET() {
   const data = semuaRingkasan().map((r) => ({
     batch_id: r.batch.id,
+    unit_count: r.batch.units.length,
+    units: r.batch.units.map((unit) => ({
+      unit_id: unit.id,
+      jenis: unit.jenis,
+      tipe: unit.tipe,
+      berat_awal_kg: unit.beratAwalKg,
+      device_id: unit.deviceId,
+    })),
     komoditas: r.batch.komoditas,
     status: r.status,
     pemegang: r.pemegangNama,

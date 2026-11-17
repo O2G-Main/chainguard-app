@@ -44,7 +44,8 @@ Aturan:
 - Kiriman ganda aman: server menyaring duplikat dari `device_id + seq`,
   jadi logger tidak perlu takut mengirim ulang setelah koneksi putus di
   tengah jalan.
-- `device_id` harus sesuai alat yang terdaftar untuk batch itu. Kiriman
+- `device_id` harus sesuai salah satu alat yang terdaftar pada unit wadah
+  atau karung dalam batch pengiriman itu. Kiriman
   dari alat yang tidak terdaftar ditolak dengan `ok: false` dan pesan
   error yang menjelaskan sebabnya.
 

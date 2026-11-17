@@ -2,12 +2,13 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { House, Package, ListOrdered, GitBranch, ArrowRightLeft, FileBadge, Smartphone, Radio, Settings2, Menu, X } from "lucide-react";
+import { House, Package, ListOrdered, GitBranch, ArrowRightLeft, FileBadge, Smartphone, Radio, Settings2, Menu, X, Warehouse } from "lucide-react";
 import Logo from "@/components/Logo";
 
 const links = [
   { href: "/dashboard", label: "Ringkasan", Icon: House },
   { href: "/dashboard/batch", label: "Batch", Icon: Package },
+  { href: "/dashboard/stok", label: "Stok Gudang", Icon: Warehouse },
   { href: "/dashboard/prioritas", label: "Prioritas Jual", Icon: ListOrdered },
   { href: "/dashboard/telusur", label: "Telusur", Icon: GitBranch },
   { href: "/dashboard/serah-terima", label: "Serah Terima", Icon: ArrowRightLeft },
@@ -18,10 +19,11 @@ const links = [
 
 export default function SiteChrome() {
   const path = usePathname();
-  const [open, setOpen] = useState(false);
-  useEffect(() => setOpen(false), [path]);
+  const [openAtPath, setOpenAtPath] = useState<string | null>(null);
+  const open = openAtPath === path;
+  const setOpen = (value: boolean) => setOpenAtPath(value ? path : null);
   useEffect(() => {
-    const close = (event: KeyboardEvent) => { if (event.key === "Escape") setOpen(false); };
+    const close = (event: KeyboardEvent) => { if (event.key === "Escape") setOpenAtPath(null); };
     window.addEventListener("keydown", close);
     return () => window.removeEventListener("keydown", close);
   }, []);

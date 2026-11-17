@@ -96,7 +96,7 @@ export function tambahBacaan(payload: {
   }
   const batch = s.batches.get(payload.batch_id);
   if (!batch) throw new Error(`Batch ${payload.batch_id} tidak dikenal.`);
-  if (batch.loggerId !== payload.device_id) {
+  if (!batch.units.some((unit) => unit.deviceId === payload.device_id)) {
     throw new Error(`Alat ${payload.device_id} tidak terdaftar untuk batch ${payload.batch_id}.`);
   }
   const arr = s.bacaan.get(batch.id) ?? [];

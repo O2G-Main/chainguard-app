@@ -816,6 +816,36 @@ body:has(.field-app){background:var(--paper)}
 @keyframes graph-node-pulse{0%{opacity:.7;stroke-width:3}70%,100%{opacity:.15;stroke-width:8}}
 @media(prefers-reduced-motion:reduce){.edge.active,.node-halo{animation:none}.edge-flow{display:none}.node-button,.node-shape,.graph-edge{transition:none}}
 @media(max-width:640px){.relation-canvas-hint{display:none}.relation-zoom{top:10px;bottom:auto;right:10px}}
+/* Pengiriman, unit fisik, dan stok gudang. */
+.shipment-summary,.warehouse-stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:25px 0}
+.shipment-summary>*,.warehouse-stats>*{display:flex;flex-direction:column;align-items:flex-start;gap:5px;min-width:0;padding:18px;border:1px solid var(--line);border-radius:18px;background:var(--surface);color:var(--ink);text-decoration:none}
+.shipment-summary svg,.warehouse-stats svg{width:20px;height:20px;color:var(--green)}
+.shipment-summary strong,.warehouse-stats strong{font-size:27px;line-height:1.1;letter-spacing:-.04em}
+.shipment-summary span,.warehouse-stats span{color:var(--muted);font-size:12px;font-weight:700}
+.shipment-summary a{background:var(--green-bg);border-color:var(--green-bg)}
+.shipment-summary a span{display:flex;align-items:center;gap:3px;color:var(--green-deep)}
+.shipment-summary a span svg{width:13px;height:13px}
+.shipment-grid,.warehouse-cards,.batch-unit-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin:20px 0}
+.shipment-card,.warehouse-card,.batch-unit-card{min-width:0;padding:20px;border:1px solid var(--line);border-radius:20px;background:var(--surface);box-shadow:0 8px 24px rgba(18,80,49,.04)}
+.shipment-card-head,.warehouse-card-top,.shipment-card-foot{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
+.shipment-overline{margin:0;color:var(--green);font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase}
+.shipment-card h2{margin:5px 0 0;font-size:26px;letter-spacing:-.04em}
+.shipment-route{margin:10px 0 18px;color:var(--muted);font-size:13px}
+.shipment-facts{display:flex;gap:20px;padding:13px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.shipment-facts span{display:grid;gap:3px;color:var(--muted);font-size:12px}.shipment-facts strong{color:var(--ink);font-size:18px}
+.shipment-card h3{margin:18px 0 9px;font-size:13px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+.shipment-units{list-style:none;padding:0;margin:0;display:grid;gap:7px}
+.shipment-units li{display:flex;align-items:center;gap:9px;min-width:0;padding:10px;border:1px solid var(--line);border-radius:12px;background:var(--paper)}
+.unit-icon{display:grid;place-items:center;flex:none;width:34px;height:34px;border-radius:10px;background:var(--green-bg);color:var(--green-deep)}.unit-karung{background:var(--secondary-bg);color:var(--chart-humidity)}
+.unit-main,.unit-reading{display:grid;gap:2px;min-width:0}.unit-main{flex:1}.unit-main strong,.unit-reading strong{font-size:12px}.unit-main small,.unit-reading small{font-size:11px;color:var(--muted)}.unit-reading{text-align:right}
+.shipment-card-foot{align-items:center;margin-top:15px;color:var(--muted);font-size:11px}.shipment-card-foot a{display:inline-flex;align-items:center;gap:3px;color:var(--green);font-size:12px;font-weight:800;text-decoration:none;white-space:nowrap}
+.batch-unit-card{display:grid;gap:7px}.batch-unit-card strong{font-size:18px}.batch-unit-card span:not(.shipment-overline),.batch-unit-card small{color:var(--muted);font-size:13px}
+.warehouse-section{margin-top:35px}.warehouse-section-head{display:flex;justify-content:space-between;align-items:center;gap:12px}.warehouse-section-head h2{margin:0}.warehouse-section-head p{margin:5px 0 0;color:var(--muted);font-size:13px}.warehouse-section-head>span{color:var(--green);font-size:12px;font-weight:800;white-space:nowrap}
+.warehouse-card h3{margin:10px 0 4px;font-size:23px}.warehouse-card p{margin:0;color:var(--muted);font-size:13px}.warehouse-card-facts{display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin:18px 0;padding:12px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}.warehouse-card-facts strong{font-size:24px}.warehouse-card-facts span{color:var(--muted);font-size:12px}.warehouse-card a{color:var(--green);font-size:13px;font-weight:800;text-decoration:none}
+@media(max-width:1100px){.shipment-grid{grid-template-columns:1fr}}
+@media(max-width:760px){.shipment-summary,.warehouse-stats{grid-template-columns:repeat(2,minmax(0,1fr))}.batch-unit-grid{grid-template-columns:1fr}}
+@media(max-width:480px){.shipment-card,.warehouse-card,.batch-unit-card{padding:16px}.shipment-units li{flex-wrap:wrap}.unit-reading{margin-left:auto}.warehouse-cards{grid-template-columns:1fr}}
+.field-unit-list{display:grid;gap:8px;margin:10px 0 20px}.field-unit-list>div{display:flex;justify-content:space-between;gap:12px;padding:12px 14px;border:1px solid var(--line);border-radius:12px;background:rgba(255,255,255,.75);font-size:13px}.field-unit-list span{color:var(--muted);text-align:right}
 .node-circle{stroke:var(--green)}.node-batch{fill:var(--green-deep);stroke:var(--green-deep)}.node-kejadian{fill:var(--red-bg);stroke:var(--red)}
 .edge{stroke:#a8caba}.edge.active{stroke:var(--green)}
 :root{--muted:#5c697b}

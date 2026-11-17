@@ -15,8 +15,24 @@ export interface Batch {
   petaniId: string;
   waktuPanen: string; // ISO
   beratPanenKg: number;
-  wadah: string; // wadah milik pelaku, logger menempel di sini
-  loggerId: string;
+  units: ShipmentUnit[]; // satu batch adalah satu pengiriman, alat menempel per wadah
+}
+
+export interface ShipmentUnit {
+  id: string;
+  jenis: "wadah" | "karung";
+  tipe: string;
+  beratAwalKg: number;
+  deviceId: string;
+}
+
+export interface WarehouseResource {
+  id: string;
+  nama: string;
+  kategori: "kemasan" | "perangkat";
+  jumlah: number;
+  satuan: string;
+  lokasi: string;
 }
 
 export interface Bacaan {

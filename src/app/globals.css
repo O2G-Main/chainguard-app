@@ -1,4 +1,6 @@
 :root {
+  --font-body: Arial;
+  --font-display: Georgia;
   --paper: #faf6ee;
   --surface: #ffffff;
   --ink: #1c2a23;

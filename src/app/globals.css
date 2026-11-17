@@ -745,6 +745,24 @@ body:has(.field-app){background:#ecf3ee}.field-app{max-width:560px;margin:auto;m
   --radius:12px;
 }
 body:has(.field-app){background:var(--paper)}
+/* Kanvas graf relasi interaktif. */
+.relation-canvas{position:relative;background:radial-gradient(circle at 50% 45%,#fff 0,#eef8f2 100%)}
+.relation-canvas svg{display:block;touch-action:none;cursor:grab}
+.relation-canvas.is-dragging-pan svg{cursor:grabbing}
+.graph-pan-surface{fill:transparent}
+.edge,.edge-label{pointer-events:none}
+.node-button{cursor:grab;transition:opacity .16s ease}
+.is-dragging-node .node-button{cursor:grabbing}
+.graph-muted{opacity:.24}
+.node-button:hover .node-circle{stroke-width:5}
+.relation-canvas-hint{position:absolute;left:16px;bottom:17px;max-width:55%;font-size:11px;font-weight:700;color:var(--muted);pointer-events:none}
+.relation-zoom{position:absolute;right:14px;bottom:12px;display:flex;align-items:center;gap:3px;background:rgba(255,255,255,.9);border:1px solid var(--line);border-radius:12px;padding:4px;box-shadow:0 5px 18px rgba(14,87,48,.1)}
+.relation-zoom button{width:31px;height:31px;border:0;border-radius:8px;background:transparent;color:var(--green-deep);font:inherit;font-size:20px;font-weight:700;cursor:pointer}
+.relation-zoom button:hover,.relation-zoom button:focus-visible{background:var(--green-bg);outline:none}
+.relation-zoom span{min-width:39px;text-align:center;font-size:11px;font-weight:800;color:var(--muted)}
+.relation-detail li{align-items:flex-start;flex-direction:column;gap:2px}
+.relation-detail li button:hover{text-decoration:underline}
+@media(max-width:640px){.relation-canvas{overflow:hidden}.relation-canvas svg{min-width:0;width:100%;height:300px}.relation-canvas-hint{max-width:45%;font-size:10px;line-height:1.3}}
 .site-header,.dashboard-sidebar{background:var(--surface)}
 .dashboard-sidebar .nav a[aria-current="page"],.dashboard-sidebar .nav .dashboard-app-link,.dashboard-menu-toggle{background:var(--accent-bg)}
 .bento-primary{background:var(--accent-solid);color:var(--accent-ink);box-shadow:0 14px 30px rgba(18,127,61,.14)}

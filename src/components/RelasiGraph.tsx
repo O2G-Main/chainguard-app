@@ -1,14 +1,25 @@
 "use client";
 
-import { useEffect, useRef, useState, type PointerEvent } from "react";
+import { useRef, useState, useSyncExternalStore, type PointerEvent } from "react";
+import { ClipboardList, Package, TriangleAlert, UserRound } from "lucide-react";
 
 type Node = { id: string; label: string; kind: "batch" | "pelaku" | "kejadian"; description: string; x: number; y: number };
-type Edge = { from: string; to: string; label: string };
+type Edge = { from: string; to: string; label: string; kind?: string };
 type View = { x: number; y: number; zoom: number };
 type Drag = { kind: "pan" | "node"; id?: string; clientX: number; clientY: number; x: number; y: number; scale: number };
 const WIDTH = 760, HEIGHT = 460;
 const kinds = ["batch", "pelaku", "kejadian"] as const;
 const names = { batch: "Batch", pelaku: "Pelaku", kejadian: "Kejadian" };
+const nodeType = (node: Node) => node.id.startsWith("catatan:") ? "catatan" : node.kind;
+const typeName = (node: Node) => nodeType(node) === "catatan" ? "Catatan lapangan" : names[node.kind];
+const nodeRadius = (node: Node) => node.kind === "batch" ? 56 : node.kind === "pelaku" ? 31 : nodeType(node) === "catatan" ? 43 : 35;
+const nodeIcon = (node: Node) => nodeType(node) === "catatan" ? ClipboardList : node.kind === "batch" ? Package : node.kind === "pelaku" ? UserRound : TriangleAlert;
+const subscribeNarrow = (onChange: () => void) => {
+  const media = window.matchMedia("(max-width: 640px)");
+  media.addEventListener("change", onChange);
+  return () => media.removeEventListener("change", onChange);
+};
+const getNarrow = () => window.matchMedia("(max-width: 640px)").matches;
 
 export default function RelasiGraph({ nodes, edges }: { nodes: Node[]; edges: Edge[] }) {
   const [positions, setPositions] = useState<Record<string, { x: number; y: number }>>(() => Object.fromEntries(nodes.map(n => [n.id, { x: n.x, y: n.y }])));
@@ -16,13 +27,9 @@ export default function RelasiGraph({ nodes, edges }: { nodes: Node[]; edges: Ed
   const [visible, setVisible] = useState<Record<Node["kind"], boolean>>({ batch: true, pelaku: true, kejadian: true });
   const [view, setView] = useState<View>({ x: 0, y: 0, zoom: 1 });
   const [dragging, setDragging] = useState<Drag["kind"] | null>(null);
+  const narrow = useSyncExternalStore(subscribeNarrow, getNarrow, () => false);
   const svgRef = useRef<SVGSVGElement>(null);
   const dragRef = useRef<Drag | null>(null);
-  useEffect(() => {
-    setPositions(Object.fromEntries(nodes.map(n => [n.id, { x: n.x, y: n.y }])));
-    setSelected(nodes[0]?.id ?? "");
-    setView({ x: 0, y: 0, zoom: 1 });
-  }, [nodes]);
 
   const shown = nodes.filter(n => visible[n.kind]);
   const shownIds = new Set(shown.map(n => n.id));
@@ -38,7 +45,7 @@ export default function RelasiGraph({ nodes, edges }: { nodes: Node[]; edges: Ed
   const startDrag = (event: PointerEvent<SVGElement>, kind: Drag["kind"], node?: Node) => {
     if (event.button !== 0 || !svgRef.current) return;
     const rect = svgRef.current.getBoundingClientRect();
-    const scale = Math.min(rect.width / (WIDTH / view.zoom), rect.height / (HEIGHT / view.zoom));
+    const scale = (narrow ? Math.max : Math.min)(rect.width / (WIDTH / view.zoom), rect.height / (HEIGHT / view.zoom));
     const origin = node ? point(node) : view;
     dragRef.current = { kind, id: node?.id, clientX: event.clientX, clientY: event.clientY, x: origin.x, y: origin.y, scale };
     svgRef.current.setPointerCapture(event.pointerId);
@@ -66,28 +73,35 @@ export default function RelasiGraph({ nodes, edges }: { nodes: Node[]; edges: Ed
       <div className="relation-filters">{kinds.map(kind => <button type="button" key={kind} aria-pressed={visible[kind]} onClick={() => setVisible(v => ({ ...v, [kind]: !v[kind] }))}><span className={`relation-key key-${kind}`} />{names[kind]} ({nodes.filter(n => n.kind === kind).length})</button>)}</div>
       <span>{shown.length} node · {shownEdges.length} hubungan</span>
     </div>
+    <div className="relation-legend" aria-label="Keterangan bentuk node"><span><Package size={15} /> Batch</span><span><UserRound size={15} /> Pelaku</span><span><TriangleAlert size={15} /> Kejadian</span>{nodes.some(n => nodeType(n) === "catatan") && <span><ClipboardList size={15} /> Catatan</span>}</div>
     <div className="relation-content">
       <div className={`relation-canvas${dragging ? ` is-dragging-${dragging}` : ""}`}>
-        <svg ref={svgRef} viewBox={`${view.x} ${view.y} ${WIDTH / view.zoom} ${HEIGHT / view.zoom}`} role="group" aria-label="Graf interaktif hubungan batch, pelaku, dan kejadian" preserveAspectRatio="xMidYMid meet" onWheel={e => { e.preventDefault(); zoomTo(view.zoom * (e.deltaY < 0 ? 1.12 : 1 / 1.12)); }} onPointerMove={moveDrag} onPointerUp={() => { dragRef.current = null; setDragging(null); }} onPointerCancel={() => { dragRef.current = null; setDragging(null); }}>
+        <svg ref={svgRef} viewBox={`${view.x} ${view.y} ${WIDTH / view.zoom} ${HEIGHT / view.zoom}`} role="group" aria-label="Graf interaktif hubungan batch, pelaku, dan kejadian" preserveAspectRatio={narrow ? "xMidYMid slice" : "xMidYMid meet"} onWheel={e => { e.preventDefault(); zoomTo(view.zoom * (e.deltaY < 0 ? 1.12 : 1 / 1.12)); }} onPointerMove={moveDrag} onPointerUp={() => { dragRef.current = null; setDragging(null); }} onPointerCancel={() => { dragRef.current = null; setDragging(null); }}>
           <rect x={view.x} y={view.y} width={WIDTH / view.zoom} height={HEIGHT / view.zoom} className="graph-pan-surface" onPointerDown={e => startDrag(e, "pan")} />
           {shownEdges.map((edge, index) => {
             const from = byId.get(edge.from)!, to = byId.get(edge.to)!, a = point(from), b = point(to);
             const active = selected === from.id || selected === to.id;
-            return <g key={`${edge.from}-${edge.to}-${index}`} className={chosen && !active ? "graph-muted" : undefined}>
-              <line x1={a.x} y1={a.y} x2={b.x} y2={b.y} className={active ? "edge active" : "edge"} />
+            const distance = Math.hypot(b.x - a.x, b.y - a.y) || 1;
+            const ux = (b.x - a.x) / distance, uy = (b.y - a.y) / distance;
+            const start = { x: a.x + ux * nodeRadius(from), y: a.y + uy * nodeRadius(from) };
+            const end = { x: b.x - ux * nodeRadius(to), y: b.y - uy * nodeRadius(to) };
+            return <g key={`${edge.from}-${edge.to}-${index}`} className={`graph-edge${chosen && !active ? " graph-muted" : ""}`}>
+              <line x1={start.x} y1={start.y} x2={end.x} y2={end.y} className={active ? "edge active" : "edge"} />
+              {active && <circle className="edge-flow" r="3.5"><animateMotion dur="2.6s" repeatCount="indefinite" path={`M ${start.x} ${start.y} L ${end.x} ${end.y}`} /></circle>}
               {active && <text x={(a.x + b.x) / 2} y={(a.y + b.y) / 2 - 9} textAnchor="middle" className="edge-label">{edge.label}</text>}
             </g>;
           })}
           {shown.map(node => {
-            const p = point(node), active = selected === node.id;
-            return <g key={node.id} role="button" tabIndex={0} aria-label={`${names[node.kind]}: ${node.label}`} aria-pressed={active} onPointerDown={e => startDrag(e, "node", node)} onKeyDown={e => {
+            const p = point(node), active = selected === node.id, type = nodeType(node), Icon = nodeIcon(node);
+            return <g key={node.id} role="button" tabIndex={0} aria-label={`${typeName(node)}: ${node.label}`} aria-pressed={active} onPointerDown={e => startDrag(e, "node", node)} onKeyDown={e => {
               if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setSelected(node.id); }
               const delta = ({ ArrowLeft: [-10, 0], ArrowRight: [10, 0], ArrowUp: [0, -10], ArrowDown: [0, 10] } as Record<string, number[]>)[e.key];
               if (delta) { e.preventDefault(); setSelected(node.id); setPositions(current => ({ ...current, [node.id]: { x: p.x + delta[0], y: p.y + delta[1] } })); }
-            }} className={`node-button${chosen && !active && !neighbors.has(node.id) ? " graph-muted" : ""}`}>
-              <circle cx={p.x} cy={p.y} r={node.kind === "batch" ? 36 : 26} className={`node-circle node-${node.kind}${active ? " selected" : ""}`} />
-              <text x={p.x} y={p.y + 5} textAnchor="middle" className="node-glyph">{node.kind === "batch" ? "B" : node.kind === "pelaku" ? "P" : "!"}</text>
-              <text x={p.x} y={p.y + 48} textAnchor="middle" className="node-label">{node.label.length > 18 ? `${node.label.slice(0, 16)}…` : node.label}</text>
+            }} className={`node-button node-type-${type}${active ? " is-selected" : ""}${chosen && !active && !neighbors.has(node.id) ? " graph-muted" : ""}`}>
+              {active && <circle cx={p.x} cy={p.y} r={nodeRadius(node) + 8} className="node-halo" />}
+              {type === "batch" ? <rect x={p.x - 56} y={p.y - 35} width="112" height="70" rx="17" className="node-shape" /> : type === "pelaku" ? <circle cx={p.x} cy={p.y} r="31" className="node-shape" /> : type === "catatan" ? <rect x={p.x - 30} y={p.y - 30} width="60" height="60" rx="11" transform={`rotate(45 ${p.x} ${p.y})`} className="node-shape" /> : <path d={`M ${p.x} ${p.y - 36} L ${p.x + 32} ${p.y + 23} Q ${p.x + 36} ${p.y + 31} ${p.x + 25} ${p.y + 31} H ${p.x - 25} Q ${p.x - 36} ${p.y + 31} ${p.x - 32} ${p.y + 23} Z`} className="node-shape" />}
+              <Icon x={p.x - 12} y={p.y - (type === "batch" ? 22 : 12)} width={24} height={24} strokeWidth={2.2} className="node-icon" aria-hidden="true" />
+              {type === "batch" ? <text x={p.x} y={p.y + 21} textAnchor="middle" className="node-batch-text">{node.label}</text> : <text x={p.x} y={p.y + 54} textAnchor="middle" className="node-label">{node.label.length > 18 ? `${node.label.slice(0, 16)}…` : node.label}</text>}
             </g>;
           })}
         </svg>
@@ -100,7 +114,7 @@ export default function RelasiGraph({ nodes, edges }: { nodes: Node[]; edges: Ed
         </div>
       </div>
       <aside className="relation-detail" aria-live="polite">{chosen ? <>
-        <p className="eyebrow">{names[chosen.kind]}</p><h2>{chosen.label}</h2><p>{chosen.description}</p>
+        <p className="eyebrow">{typeName(chosen)}</p><h2>{chosen.label}</h2><p>{chosen.description}</p>
         <h3>Hubungan <span>({edges.filter(e => e.from === chosen.id || e.to === chosen.id).length})</span></h3>
         <ul>{edges.filter(e => e.from === chosen.id || e.to === chosen.id).map((edge, index) => {
           const other = byId.get(edge.from === chosen.id ? edge.to : edge.from);
